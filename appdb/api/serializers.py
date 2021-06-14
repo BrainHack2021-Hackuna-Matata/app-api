@@ -6,6 +6,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
+            'id',
             'name',
             'title',
             'usertype',
@@ -21,6 +22,7 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = (
+            'id',
             'title',
             'description',
             'location',
@@ -34,6 +36,7 @@ class MeetupsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Meetups
         fields = (
+            'id',
             'title',
             'description',
             'location',
