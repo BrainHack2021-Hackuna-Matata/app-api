@@ -12,6 +12,7 @@ class User(models.Model):
     usertype = models.BooleanField()
     block = models.CharField(max_length=50, blank=False, default='')
     postal = models.CharField(max_length=50, blank=False, default='')
+    unit = models.CharField(max_length=50, blank=False, default='')
     lat = models.DecimalField(decimal_places=5, max_digits=8, default=0)
     long = models.DecimalField(decimal_places=5, max_digits=8, default=0)
     exp = models.IntegerField(blank=False, default=0)
