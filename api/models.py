@@ -15,6 +15,9 @@ class User(models.Model):
     postal = models.CharField(max_length=50, blank=False, default='')
     exp = models.IntegerField(blank=False, default=0)
 
+    class Meta:
+        ordering = ['id']
+
 
 class Post(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -26,7 +29,11 @@ class Post(models.Model):
     imageurl = models.CharField(max_length=200, blank=False, default='')
     coming = ArrayField(models.CharField(
         max_length=50, blank=False, default=''))
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created']
 
 
 class Meetups(models.Model):
@@ -38,4 +45,9 @@ class Meetups(models.Model):
     imageurl = models.CharField(max_length=200, blank=False, default='')
     coming = ArrayField(models.CharField(
         max_length=50, blank=False, default=''))
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created']
+

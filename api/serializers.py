@@ -29,6 +29,7 @@ class PostSerializer(serializers.ModelSerializer):
             'items',
             'imageurl',
             'coming',
+            'created',
         )
 
 
@@ -43,4 +44,5 @@ class MeetupsSerializer(serializers.ModelSerializer):
             'capacity',
             'imageurl',
             'coming',
+            'created',
         )
