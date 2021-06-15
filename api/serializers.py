@@ -9,9 +9,13 @@ class UserSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'mobile',
+            'password',
             'usertype',
             'block',
             'postal',
+            'unit',
+            'lat',
+            'long',
             'exp',
         )
 
