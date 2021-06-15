@@ -42,7 +42,7 @@ def oneuser(request, pk):
         return JsonResponse(serialized.data, safe=False)
     if request.method == 'DELETE':
         user.delete()
-        return JsonResponse({'success': 'User weas deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+        return JsonResponse({'success': 'User was deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['GET', 'POST'])
@@ -68,7 +68,7 @@ def onepost(request, pk):
         return JsonResponse(serialized.data, safe=False)
     if request.method == 'DELETE':
         post.delete()
-        return JsonResponse({'success': 'Post weas deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+        return JsonResponse({'success': 'Post was deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['GET', 'POST'])
@@ -94,4 +94,4 @@ def onemeetup(request, pk):
         return JsonResponse(serialized.data, safe=False)
     if request.method == 'DELETE':
         meetup.delete()
-        return JsonResponse({'success': 'Meetup weas deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+        return JsonResponse({'success': 'Meetup was deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
