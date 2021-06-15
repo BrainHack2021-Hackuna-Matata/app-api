@@ -26,7 +26,7 @@ class Post(models.Model):
     imageurl = models.CharField(max_length=200, blank=False, default='')
     coming = ArrayField(models.CharField(
         max_length=50, blank=False, default=''))
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
 
 
 class Meetups(models.Model):
@@ -38,4 +38,4 @@ class Meetups(models.Model):
     imageurl = models.CharField(max_length=200, blank=False, default='')
     coming = ArrayField(models.CharField(
         max_length=50, blank=False, default=''))
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
