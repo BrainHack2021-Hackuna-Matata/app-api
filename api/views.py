@@ -1,5 +1,4 @@
-from django.shortcuts import render
-
+from base64 import b64encode
 
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
@@ -10,21 +9,42 @@ from .serializers import PostSerializer, UserSerializer, MeetupsSerializer
 from rest_framework.decorators import api_view
 
 
-@api_view(['GET', 'POST', 'DELETE'])
+@api_view(['POST'])
+def login(request):
+    allusers = User.objects.all()
+    userinfo = JSONParser().parse(request)
+    # allusers_s = UserSerializer(allusers, many=True)
+    mobile = userinfo['mobile']
+    password = userinfo['password']
+    for i in allusers:
+        if i.mobile == mobile:
+            if i.password == password:
+                credentials = f"{mobile}:{password}"
+                encodedCredentials = str(
+                    b64encode(credentials.encode("utf-8")), "utf-8")
+                basicauth = f'Basic {encodedCredentials}'
+                response = JsonResponse({'mobile': mobile})
+                response["Authorization"] = basicauth
+                return response
+            else:
+                return JsonResponse({'message': 'Wrong password.'})
+        # return JsonResponse(allusers_s.data, safe=False, status=status.HTTP_201_CREATED)
+        # return JsonResponse({'message': 'fail'})
+    return JsonResponse({'message': 'Redirect to register page'})
+
+
+@api_view(['GET'])
 def index(request):
-    return JsonResponse({'apis': {
-        'users': 'Get all users',
-        'posts': 'Get all Groupbuy requests',
-        'meetups': 'Get all meetup invites',
-    }}, status=status.HTTP_201_CREATED)
-
-
-@api_view(['GET', 'POST'])
-def users(request):
     if request.method == 'GET':
-        user = User.objects.all()
-        serialized = UserSerializer(user, many=True)
-        return JsonResponse(serialized.data, safe=False)
+        return JsonResponse({'apis': {
+            'users': 'Get all users',
+            'posts': 'Get all Groupbuy requests',
+            'meetups': 'Get all meetup invites',
+        }}, status=status.HTTP_201_CREATED)
+
+
+@api_view(['POST'])
+def users(request):
     if request.method == 'POST':
         user_data = JSONParser().parse(request)
         user_serializer = UserSerializer(data=user_data)
@@ -45,12 +65,8 @@ def oneuser(request, pk):
         return JsonResponse({'success': 'User was deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
 
 
-@api_view(['GET', 'POST'])
+@api_view(['POST'])
 def posts(request):
-    if request.method == 'GET':
-        post = Post.objects.all()
-        serialized = PostSerializer(post, many=True)
-        return JsonResponse(serialized.data, safe=False)
     if request.method == 'POST':
         post_data = JSONParser().parse(request)
         post_serializer = PostSerializer(data=post_data)
@@ -71,7 +87,7 @@ def onepost(request, pk):
         return JsonResponse({'success': 'Post was deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
 
 
-@api_view(['GET', 'POST'])
+@api_view(['POST'])
 def meetups(request):
     if request.method == 'GET':
         meetup = Meetups.objects.all()
