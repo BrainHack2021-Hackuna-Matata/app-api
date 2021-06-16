@@ -26,13 +26,9 @@ class Post(models.Model):
     title = models.CharField(max_length=50, blank=False, default='')
     description = models.CharField(max_length=200, default='')
     location = models.CharField(max_length=50, blank=False, default='')
-    items = ArrayField(models.CharField(
-        max_length=50, blank=False, default=''))
     name = models.CharField(max_length=200, blank=False, default='')
-    coming = ArrayField(models.CharField(
-        max_length=50, blank=False, default=''))
-    owner = models.ForeignKey(
-        User, on_delete=models.CASCADE, blank=True, null=True)
+    coming = models.CharField(max_length=50, blank=True, default='NULL')
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     due = models.DateTimeField()
     fulfilled = models.BooleanField()

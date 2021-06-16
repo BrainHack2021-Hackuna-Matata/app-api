@@ -28,7 +28,6 @@ class PostSerializer(serializers.ModelSerializer):
             'title',
             'description',
             'location',
-            'items',
             'name',
             'coming',
             'owner',
