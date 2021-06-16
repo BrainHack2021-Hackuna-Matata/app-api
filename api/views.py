@@ -66,7 +66,7 @@ def oneuser(request, pk):
         return JsonResponse({'success': 'User was deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
 
 
-@api_view(['POST'])
+@api_view(['POST', 'GET'])
 def posts(request):
     if request.method == 'POST':
         post_data = JSONParser().parse(request)
@@ -75,6 +75,10 @@ def posts(request):
             post_serializer.save()
             return JsonResponse(post_serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse(post_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    if request.method == 'GET':
+        allposts = Post.objects.all()
+        serialized = PostSerializer(allposts, many=True)
+        return JsonResponse(serialized.data, safe=False)
 
 
 @api_view(['GET', 'DELETE', 'POST'])
@@ -95,7 +99,7 @@ def onepost(request, pk):
         return JsonResponse({'success': 'Post was updated successfully.'}, status=status.HTTP_204_NO_CONTENT)
 
 
-@api_view(['POST'])
+@api_view(['GET', 'POST'])
 def meetups(request):
     if request.method == 'POST':
         meetups_data = JSONParser().parse(request)
@@ -104,6 +108,10 @@ def meetups(request):
             meetups_serializer.save()
             return JsonResponse(meetups_serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse(meetups_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    if request.method == 'GET':
+        allmeetups = Meetups.objects.all()
+        serialized = MeetupsSerializer(allmeetups, many=True)
+        return JsonResponse(serialized.data, safe=False)
 
 
 @api_view(['GET', 'DELETE', 'POST'])

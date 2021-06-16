@@ -56,4 +56,5 @@ class MeetupsSerializer(serializers.ModelSerializer):
             'owner',
             'created',
             'due',
+            'hostname',
         )
