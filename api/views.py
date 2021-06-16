@@ -83,6 +83,7 @@ def posts(request):
         return JsonResponse(serialized.data, safe=False)
     return JsonResponse({'error': 'Request not found'}, status=status.HTTP_404_NOT_FOUND)
 
+
 @api_view(['GET'])
 def userPosts(request, pk):
     if request.method == 'GET':
