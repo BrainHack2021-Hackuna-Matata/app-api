@@ -48,10 +48,8 @@ class Post(models.Model):
 class Meetups(models.Model):
     id = models.BigAutoField(primary_key=True)
     title = models.CharField(max_length=50, blank=False, default='')
-    description = models.CharField(max_length=200, default='')
     location = models.CharField(max_length=50, blank=False, default='')
     capacity = models.IntegerField(blank=False, default=0)
-    imageurl = models.CharField(max_length=200, blank=False, default='')
     coming = ArrayField(models.CharField(
         max_length=50, blank=False, default=''))
     owner = models.ForeignKey(

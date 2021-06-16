@@ -48,10 +48,8 @@ class MeetupsSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'title',
-            'description',
             'location',
             'capacity',
-            'imageurl',
             'coming',
             'owner',
             'created',
