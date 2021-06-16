@@ -53,6 +53,7 @@ def users(request):
             user_serializer.save()
             return JsonResponse(user_serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return JsonResponse({'error': 'Request not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(['GET', 'DELETE'])
@@ -64,6 +65,7 @@ def oneuser(request, pk):
     if request.method == 'DELETE':
         user.delete()
         return JsonResponse({'success': 'User was deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+    return JsonResponse({'error': 'Request not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(['POST', 'GET'])
@@ -79,6 +81,7 @@ def posts(request):
         allposts = Post.objects.all()
         serialized = PostSerializer(allposts, many=True)
         return JsonResponse(serialized.data, safe=False)
+    return JsonResponse({'error': 'Request not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(['GET', 'DELETE', 'POST'])
@@ -97,6 +100,7 @@ def onepost(request, pk):
         post.coming = data['coming']
         post.save()
         return JsonResponse({'success': 'Post was updated successfully.'}, status=status.HTTP_204_NO_CONTENT)
+    return JsonResponse({'error': 'Request not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(['GET', 'POST'])
@@ -111,7 +115,8 @@ def meetups(request):
     if request.method == 'GET':
         allmeetups = Meetups.objects.all()
         serialized = MeetupsSerializer(allmeetups, many=True)
-        return JsonResponse(serialized.data, safe=False)
+        return JsonResponse(serialized.data, safe=False, status=status.HTTP_200_OK)
+    return JsonResponse({'error': 'Request not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(['GET', 'DELETE', 'POST'])
@@ -128,3 +133,4 @@ def onemeetup(request, pk):
         meetup.coming = data['coming']
         meetup.save()
         return JsonResponse({'success': 'Meetup was updated successfully.'}, status=status.HTTP_204_NO_CONTENT)
+    return JsonResponse({'error': 'Request not found'}, status=status.HTTP_404_NOT_FOUND)
