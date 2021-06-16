@@ -28,7 +28,7 @@ class Post(models.Model):
     location = models.CharField(max_length=50, blank=False, default='')
     items = ArrayField(models.CharField(
         max_length=50, blank=False, default=''))
-    imageurl = models.CharField(max_length=200, blank=False, default='')
+    name = models.CharField(max_length=200, blank=False, default='')
     coming = ArrayField(models.CharField(
         max_length=50, blank=False, default=''))
     owner = models.ForeignKey(

@@ -29,7 +29,7 @@ class PostSerializer(serializers.ModelSerializer):
             'description',
             'location',
             'items',
-            'imageurl',
+            'name',
             'coming',
             'owner',
             'created',
