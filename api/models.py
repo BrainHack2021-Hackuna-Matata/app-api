@@ -58,6 +58,7 @@ class Meetups(models.Model):
         User, on_delete=models.CASCADE, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     due = models.DateTimeField()
+    hostname = models.CharField(max_length=50, blank=False, default='')
 
     class Meta:
         ordering = ['-created']
