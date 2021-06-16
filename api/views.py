@@ -13,7 +13,6 @@ from rest_framework.decorators import api_view
 def login(request):
     allusers = User.objects.all()
     userinfo = JSONParser().parse(request)
-    # allusers_s = UserSerializer(allusers, many=True)
     mobile = userinfo['mobile']
     password = userinfo['password']
     for i in allusers:
@@ -29,8 +28,6 @@ def login(request):
                 return response
             else:
                 return JsonResponse({'message': 'Wrong password.'})
-        # return JsonResponse(allusers_s.data, safe=False, status=status.HTTP_201_CREATED)
-        # return JsonResponse({'message': 'fail'})
     return JsonResponse({'message': 'Redirect to register page'})
 
 
