@@ -106,14 +106,14 @@ def onepost(request, pk):
         return JsonResponse(serialized.data, safe=False)
     if request.method == 'DELETE':
         post.delete()
-        return JsonResponse({'success': 'Post was deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+        return JsonResponse({'success': 'Post was deleted successfully.'}, status=status.HTTP_200_OK)
     if request.method == 'POST':
         data = JSONParser().parse(request)
         post.fulfilled = data['fulfilled']
         post.accepted = data['accepted']
         post.coming = data['coming']
         post.save()
-        return JsonResponse({'success': 'Post was updated successfully.'}, status=status.HTTP_204_NO_CONTENT)
+        return JsonResponse({'success': 'Post was updated successfully.'},  status=status.HTTP_200_OK)
     return JsonResponse({'error': 'Request not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
@@ -141,10 +141,10 @@ def onemeetup(request, pk):
         return JsonResponse(serialized.data, safe=False)
     if request.method == 'DELETE':
         meetup.delete()
-        return JsonResponse({'success': 'Meetup was deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+        return JsonResponse({'success': 'Meetup was deleted successfully.'}, status=status.HTTP_200_OK)
     if request.method == 'POST':
         data = JSONParser().parse(request)
         meetup.coming = data['coming']
         meetup.save()
-        return JsonResponse({'success': 'Meetup was updated successfully.'}, status=status.HTTP_204_NO_CONTENT)
+        return JsonResponse({'success': 'Meetup was updated successfully.'}, status=status.HTTP_200_OK)
     return JsonResponse({'error': 'Request not found'}, status=status.HTTP_404_NOT_FOUND)
