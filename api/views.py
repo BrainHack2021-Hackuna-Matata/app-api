@@ -57,78 +57,66 @@ def users(request):
 
 @api_view(['GET', 'DELETE'])
 def oneuser(request, pk):
-    authcookie = request.COOKIES.get('auth')
-    if authcookie is not None:
-        user = User.objects.get(id=pk)
-        if request.method == 'GET':
-            serialized = UserSerializer(user)
-            return JsonResponse(serialized.data, safe=False)
-        if request.method == 'DELETE':
-            user.delete()
-            return JsonResponse({'success': 'User was deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
-    else:
-        return JsonResponse({'message': 'Not authenticated'})
+    user = User.objects.get(id=pk)
+    if request.method == 'GET':
+        serialized = UserSerializer(user)
+        return JsonResponse(serialized.data, safe=False)
+    if request.method == 'DELETE':
+        user.delete()
+        return JsonResponse({'success': 'User was deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['POST'])
 def posts(request):
-    authcookie = request.COOKIES.get('auth')
-    if authcookie is not None:
-        if request.method == 'POST':
-            post_data = JSONParser().parse(request)
-            post_serializer = PostSerializer(data=post_data)
-            if post_serializer.is_valid():
-                post_serializer.save()
-                return JsonResponse(post_serializer.data, status=status.HTTP_201_CREATED)
-            return JsonResponse(post_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        return JsonResponse({'message': 'Not authenticated'})
+    if request.method == 'POST':
+        post_data = JSONParser().parse(request)
+        post_serializer = PostSerializer(data=post_data)
+        if post_serializer.is_valid():
+            post_serializer.save()
+            return JsonResponse(post_serializer.data, status=status.HTTP_201_CREATED)
+        return JsonResponse(post_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET', 'DELETE'])
+@api_view(['GET', 'DELETE', 'POST'])
 def onepost(request, pk):
-    authcookie = request.COOKIES.get('auth')
-    if authcookie is not None:
-        post = Post.objects.get(id=pk)
-        if request.method == 'GET':
-            serialized = PostSerializer(post)
-            return JsonResponse(serialized.data, safe=False)
-        if request.method == 'DELETE':
-            post.delete()
-            return JsonResponse({'success': 'Post was deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
-    else:
-        return JsonResponse({'message': 'Not authenticated'})
+    post = Post.objects.get(id=pk)
+    if request.method == 'GET':
+        serialized = PostSerializer(post)
+        return JsonResponse(serialized.data, safe=False)
+    if request.method == 'DELETE':
+        post.delete()
+        return JsonResponse({'success': 'Post was deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        post.fulfilled = data['fulfilled']
+        post.accepted = data['accepted']
+        post.coming = data['coming']
+        post.save()
+        return JsonResponse({'success': 'Post was updated successfully.'}, status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['POST'])
 def meetups(request):
-    authcookie = request.COOKIES.get('auth')
-    if authcookie is not None:
-        if request.method == 'GET':
-            meetup = Meetups.objects.all()
-            serialized = MeetupsSerializer(meetup, many=True)
-            return JsonResponse(serialized.data, safe=False)
-        if request.method == 'POST':
-            meetups_data = JSONParser().parse(request)
-            meetups_serializer = MeetupsSerializer(data=meetups_data)
-            if meetups_serializer.is_valid():
-                meetups_serializer.save()
-                return JsonResponse(meetups_serializer.data, status=status.HTTP_201_CREATED)
-            return JsonResponse(meetups_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        return JsonResponse({'message': 'Not authenticated'})
+    if request.method == 'POST':
+        meetups_data = JSONParser().parse(request)
+        meetups_serializer = MeetupsSerializer(data=meetups_data)
+        if meetups_serializer.is_valid():
+            meetups_serializer.save()
+            return JsonResponse(meetups_serializer.data, status=status.HTTP_201_CREATED)
+        return JsonResponse(meetups_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET', 'DELETE'])
+@api_view(['GET', 'DELETE', 'POST'])
 def onemeetup(request, pk):
-    authcookie = request.COOKIES.get('auth')
-    if authcookie is not None:
-        meetup = Meetups.objects.get(id=pk)
-        if request.method == 'GET':
-            serialized = MeetupsSerializer(meetup)
-            return JsonResponse(serialized.data, safe=False)
-        if request.method == 'DELETE':
-            meetup.delete()
-            return JsonResponse({'success': 'Meetup was deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
-    else:
-        return JsonResponse({'message': 'Not authenticated'})
+    meetup = Meetups.objects.get(id=pk)
+    if request.method == 'GET':
+        serialized = MeetupsSerializer(meetup)
+        return JsonResponse(serialized.data, safe=False)
+    if request.method == 'DELETE':
+        meetup.delete()
+        return JsonResponse({'success': 'Meetup was deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        meetup.coming = data['coming']
+        meetup.save()
+        return JsonResponse({'success': 'Meetup was updated successfully.'}, status=status.HTTP_204_NO_CONTENT)

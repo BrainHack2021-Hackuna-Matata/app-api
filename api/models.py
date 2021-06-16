@@ -34,6 +34,12 @@ class Post(models.Model):
     owner = models.ForeignKey(
         User, on_delete=models.CASCADE, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
+    due = models.DateTimeField()
+    fulfilled = models.BooleanField()
+    accepted = models.BooleanField()
+    lat = models.DecimalField(decimal_places=5, max_digits=8, default=0)
+    long = models.DecimalField(decimal_places=5, max_digits=8, default=0)
+    unit = models.CharField(max_length=50, blank=False, default='')
 
     class Meta:
         ordering = ['-created']
@@ -51,6 +57,7 @@ class Meetups(models.Model):
     owner = models.ForeignKey(
         User, on_delete=models.CASCADE, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
+    due = models.DateTimeField()
 
     class Meta:
         ordering = ['-created']
