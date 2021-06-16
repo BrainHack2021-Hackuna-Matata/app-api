@@ -31,7 +31,14 @@ class PostSerializer(serializers.ModelSerializer):
             'items',
             'imageurl',
             'coming',
+            'owner',
             'created',
+            'due',
+            'fulfilled',
+            'accepted',
+            'lat',
+            'long',
+            'unit',
         )
 
 
@@ -46,5 +53,7 @@ class MeetupsSerializer(serializers.ModelSerializer):
             'capacity',
             'imageurl',
             'coming',
+            'owner',
             'created',
+            'due',
         )
