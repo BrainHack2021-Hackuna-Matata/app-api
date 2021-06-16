@@ -83,6 +83,19 @@ def posts(request):
         return JsonResponse(serialized.data, safe=False)
     return JsonResponse({'error': 'Request not found'}, status=status.HTTP_404_NOT_FOUND)
 
+@api_view(['GET'])
+def userPosts(request, pk):
+    if request.method == 'GET':
+        user = User.objects.get(id=pk)
+        filteredPosts = Post.objects.filter(owner__id=user.id)
+        serialized = PostSerializer(filteredPosts, many=True)
+        serialized = {
+            "length": len(serialized.data),
+            "data": serialized.data
+        }
+        return JsonResponse(serialized, status=status.HTTP_200_OK, safe=False)
+    return JsonResponse({'error': 'Request not found'}, status=status.HTTP_404_NOT_FOUND)
+
 
 @api_view(['GET', 'DELETE', 'POST'])
 def onepost(request, pk):

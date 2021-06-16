@@ -14,4 +14,6 @@ urlpatterns = [
     url(r'^meetups/(?P<pk>[0-9]+)$', views.onemeetup),
     path('login', views.login, name="login"),
 
+    url(r'^posts/user/(?P<pk>[0-9]+)$', views.userPosts),
+
 ]
